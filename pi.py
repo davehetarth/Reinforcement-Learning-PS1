@@ -12,7 +12,6 @@ def policy_iteration(P, gamma=0.99):
     while True:
         iteration_count += 1
         
-        # --- Phase 1: Policy Evaluation (Linear System Solve) ---
         A_mat = np.eye(num_states)
         R_pi = np.zeros(num_states)
         
@@ -26,7 +25,6 @@ def policy_iteration(P, gamma=0.99):
         V = np.linalg.solve(A_mat, R_pi)
         total_backups += (num_states ** 3) 
         
-        # --- Phase 2: Policy Improvement ---
         policy_stable = True
         for s in range(num_states):
             old_action = policy[s]
@@ -55,14 +53,12 @@ if __name__ == "__main__":
     print(f"Policy Iteration completed in {it_pi} outer loop updates.")
     print(f"Total computed operational complexity metric: {backups} operations.\n")
     
-    # --- Print the 4x4 V matrix ---
     print("--- Policy Iteration V* Table (4x4 Grid) ---")
     v_grid = V_pi.reshape(4, 4)
     for row in v_grid:
         print(" | ".join(f"{val:6.4f}" for val in row))
     print("\n")
     
-    # --- Print the 4x4 Policy (Arrows) ---
     print("--- Policy Iteration pi* Rendered as Arrows ---")
     arrow_map = {0: "◄", 1: "▼", 2: "►", 3: "▲"}
     holes = {5, 7, 11, 12}

@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 from vi import value_iteration
 from pi import policy_iteration
 
-# Initialize the structural tracking configurations
 env = gym.make("FrozenLake-v1", is_slippery=True)
 P_model = env.unwrapped.P
 
@@ -18,14 +17,12 @@ print(f"{'Gamma':<6} | {'Algo':<4} | {'Iterations':<10} | {'Time (s)':<10} | {'E
 print("-" * 55)
 
 for g in gammas:
-    # Evaluate Value Iteration
     start = time.time()
     V_vi, p_vi, it_vi, back_vi, _, _ = value_iteration(P_model, gamma=g)
     time_vi = time.time() - start
     vi_iters.append(it_vi)
     print(f"{g:<6} | VI   | {it_vi:<10} | {time_vi:.5f}  | {back_vi:<12}")
     
-    # Evaluate Policy Iteration
     start = time.time()
     V_pi, p_pi, it_pi, back_pi = policy_iteration(P_model, gamma=g)
     time_pi = time.time() - start
@@ -33,7 +30,6 @@ for g in gammas:
     print(f"{g:<6} | PI   | {it_pi:<10} | {time_pi:.5f}  | {back_pi:<12}")
     print("-" * 55)
 
-# Generate performance comparison visualization
 plt.figure(figsize=(9, 5.5))
 plt.plot(gammas, vi_iters, marker='o', color='royalblue', linewidth=2, label='Value Iteration (VI)')
 plt.plot(gammas, pi_iters, marker='s', color='darkorange', linewidth=2, label='Policy Iteration (PI)')

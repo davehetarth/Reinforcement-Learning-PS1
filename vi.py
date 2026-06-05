@@ -9,11 +9,9 @@ def value_iteration(P, gamma=0.99, theta=1e-4):
     iteration_count = 0
     num_backups = 0
     
-    # Track metrics for Part (d)
     optimal_policy_found_at = None
     max_norm_at_k_star = None
     
-    # Target optimal policy for verification
     target_optimal_policy = np.array([0, 3, 3, 3, 0, 0, 0, 0, 3, 1, 0, 0, 0, 2, 1, 0])
     
     while True:
@@ -32,7 +30,6 @@ def value_iteration(P, gamma=0.99, theta=1e-4):
             V_new[s] = np.max(q_values)
             delta = max(delta, abs(V_new[s] - V[s]))
             
-        # Extract current policy to check for Part (d) convergence
         current_policy = np.zeros(num_states, dtype=int)
         for s in range(num_states):
             q_vals = np.zeros(num_actions)
@@ -42,7 +39,6 @@ def value_iteration(P, gamma=0.99, theta=1e-4):
                     q_vals[a] += prob * (reward + gamma * V_target)
             current_policy[s] = np.argmax(q_vals)
             
-        # Check if this iteration matches the final stable optimal policy setup
         if optimal_policy_found_at is None and np.array_equal(current_policy, target_optimal_policy):
             optimal_policy_found_at = iteration_count
             max_norm_at_k_star = delta
